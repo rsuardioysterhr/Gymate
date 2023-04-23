@@ -1,79 +1,32 @@
 import { Link } from "react-router-dom";
 
-function NavList() {
-  const goTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "none",
-    });
-  };
+export const links = [
+  { name: "Home", url: "/" },
+  { name: "About", url: "/about" },
+  { name: "Gallery", url: "/gallery" },
+  { name: "Schedule", url: "/schedule" },
+  { name: "Blog", url: "/blog" },
+  { name: "Pricing", url: "/pricing" },
+  { name: "Classes", url: "/classes" },
+  { name: "Contact", url: "/contact" },
+]
+
+export function NavItem({ name, url, isMobile, className }) {
   return (
-    <>
-      <ul className="flex gap-9 text-white text-[16px] font-medium xl:none">
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <a href="/">Home</a>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/about"}>
-            About
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/gallery/page-1"}>
-            Gallery
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/schedule/monday"}>
-            Schedule
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/blog"}>
-            Blog
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/pricing"}>
-            Pricing
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/classes"}>
-            Classes
-          </Link>
-        </li>
-        <li
-          style={{ transition: "all 0.3s" }}
-          className=" cursor-pointer hover:text-[#ff0336]"
-        >
-          <Link onClick={goTop} to={"/contact"}>
-            Contact
-          </Link>
-        </li>
-      </ul>
-    </>
+    <li style={!isMobile ? { transition: "all 0.3s" } : {}}
+      className={!isMobile ? "cursor-pointer hover:text-[#ff0336]" : className}>
+      <Link to={url}>{name}</Link>
+    </li>
+  )
+}
+
+function NavList() {
+  return (
+    <ul className="flex gap-9 text-white text-[16px] font-medium xl:none">
+      {links.map(({ name, url }, index) => (
+        <NavItem key={index} name={name} url={url} />
+      ))}
+    </ul>
   );
 }
 

@@ -4,28 +4,31 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer/Footer";
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { user, signUp } = UserAuth();
+  const [form, setForm] = useState(()=> ({
+    email: "",
+    password: "",
+  }));
+
+  const { signUp } = UserAuth();
   const navigate = useNavigate();
 
-  const goTop = () => {
-    window.scrollTo({
-      top: 0,
-    });
-  };
+  const handleFormChange = (e) => {
+    const { name, value } = e.target
+    setForm({...form, [name]: value})
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      const { email, password} = form
       await signUp(email, password);
       navigate("/#home");
-      goTop();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }
+
   return (
     <>
       <section className="login-section ">
@@ -47,7 +50,8 @@ function Signup() {
               className="text-[1.7rem] px-8 py-4 mb-10 w-full outline-[#ff0336] "
               placeholder="gymate@gymail.com"
               type="email"
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              onChange={handleFormChange}
             ></input>
 
             <label className="text-[2rem] text-white mb-3 font-medium outline-[#ff0336] outline-2">
@@ -57,7 +61,8 @@ function Signup() {
               className="text-[1.7rem] px-8 py-4 mb-10 w-full outline-[#ff0336] "
               placeholder="password"
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              onChange={handleFormChange}
             ></input>
 
             <button
